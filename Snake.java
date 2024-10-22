@@ -1,14 +1,18 @@
 import javax.swing.*;
-import javax.swing.text.Position;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Snake extends JPanel {
     private int x;
     private int y;
+    private String direction;
+    Point[] snakePos;
+    private int length;
 
     public Snake() {
         this.x = 500;
         this.y = 500;
+        this.snakePos = new Point[length];
     }
 
     public void paintComponent(Graphics g) {
@@ -20,7 +24,6 @@ public class Snake extends JPanel {
     public void moveRight() {
         if (this.x < 900) {
             this.x += 100;
-
         }
     }
 
@@ -42,7 +45,30 @@ public class Snake extends JPanel {
         }
     }
 
-    //public void updateSnakePos() {
-    //    this.coords[0].setLocation(this.x,this.y);
-    //}
+    private void updatePosition() {
+        switch (direction) {
+            case "right" -> moveRight();
+            case "left" -> moveLeft();
+            case "up" -> moveUp();
+            case "down" -> moveDown();
+        }
+    }
+
+    //
+    private void updatePositionHistory() {
+        if (this.length > this.snakePos.length) {
+            Point[] tempArray = new Point[this.snakePos.length + 1];
+            tempArray[0] = new Point(this.x, this.y);
+            for (int i = 1; i <= tempArray.length; i++) {
+                tempArray[i] = this.snakePos[i - 1];
+            }
+            this.snakePos = tempArray;
+        } else {
+            for (int i = 1; i <= this.snakePos.length; i++) {
+                this.snakePos[i] = this.snakePos[i - 1];
+            }
+            this.snakePos[0] = new Point(this.x, this.y);
+        }
+    }
+
 }
