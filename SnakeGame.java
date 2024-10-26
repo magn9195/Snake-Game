@@ -9,8 +9,10 @@ public class SnakeGame extends JPanel implements KeyListener {
     private boolean keyPressed;
     private JFrame frame;
     private Snake snake;
+    private Apple apple;
     private Background background;
     private JPanel mainPanel;
+
 
     public SnakeGame() {
         this.height = 1040;
@@ -19,6 +21,7 @@ public class SnakeGame extends JPanel implements KeyListener {
         this.keyPressed = false;
         this.frame.addKeyListener(this);
         this.snake = new Snake();
+        this.apple = new Apple();
         this.background = new Background();
         this.mainPanel = new JPanel(new BorderLayout());
     }
@@ -32,6 +35,7 @@ public class SnakeGame extends JPanel implements KeyListener {
         this.mainPanel.setSize(this.width,this.height);
         this.mainPanel.setLayout(new OverlayLayout(this.mainPanel));
         this.mainPanel.add(this.background);
+        this.mainPanel.add(this.apple);
         this.mainPanel.add(this.snake);
         this.mainPanel.setBackground(Color.GREEN);
         this.frame.setContentPane(mainPanel);
@@ -41,6 +45,7 @@ public class SnakeGame extends JPanel implements KeyListener {
     public void paintRepaint() {
         this.background.repaint();
         this.snake.repaint();
+        this.apple.repaint();
     }
 
     @Override

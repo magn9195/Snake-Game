@@ -59,9 +59,7 @@ public class Snake extends JPanel {
         if (this.length > this.snakePos.length) {
             Point[] tempArray = new Point[this.snakePos.length + 1];
             tempArray[0] = new Point(this.x, this.y);
-            for (int i = 1; i <= tempArray.length; i++) {
-                tempArray[i] = this.snakePos[i - 1];
-            }
+            System.arraycopy(this.snakePos, 0, tempArray, 1, tempArray.length);
             this.snakePos = tempArray;
         } else {
             for (int i = 1; i <= this.snakePos.length; i++) {
