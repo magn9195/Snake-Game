@@ -23,4 +23,5 @@ public class Apple extends JPanel {
         this.x = this.random.nextInt(11 - 1) * 100;
         this.y = this.random.nextInt(11 - 1) * 100;
     }
+
 }
