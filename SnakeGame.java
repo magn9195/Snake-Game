@@ -29,23 +29,21 @@ public class SnakeGame extends JPanel implements KeyListener {
     public void run() {
         this.frame.setSize(this.width, this.height);
         this.frame.setResizable(false);
-        this.frame.setBackground(Color.GREEN);
+        //this.frame.setBackground(Color.MAGENTA);
         this.frame.getContentPane().setBackground(Color.BLUE);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.mainPanel.setSize(this.width,this.height);
         this.mainPanel.setLayout(new OverlayLayout(this.mainPanel));
-        this.mainPanel.add(this.background);
-        this.mainPanel.add(this.apple);
         this.mainPanel.add(this.snake);
-        this.mainPanel.setBackground(Color.GREEN);
+        this.mainPanel.add(this.apple);
+        this.mainPanel.add(this.background);
+        //this.mainPanel.setBackground(Color.GREEN);
         this.frame.setContentPane(mainPanel);
         this.frame.setVisible(true);
     }
 
     public void paintRepaint() {
-        this.background.repaint();
-        this.snake.repaint();
-        this.apple.repaint();
+        this.mainPanel.repaint();
     }
 
     @Override

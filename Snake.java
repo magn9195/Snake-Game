@@ -16,7 +16,6 @@ public class Snake extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.setColor(Color.GREEN);
         g.fillRect(this.x,this.y,100,100);
     }
@@ -68,5 +67,4 @@ public class Snake extends JPanel {
             this.snakePos[0] = new Point(this.x, this.y);
         }
     }
-
 }

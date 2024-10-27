@@ -14,7 +14,6 @@ public class Apple extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.setColor(Color.RED);
         g.fillRect(this.x, this.y, 100, 100);
     }
