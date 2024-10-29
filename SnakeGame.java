@@ -26,10 +26,9 @@ public class SnakeGame extends JPanel implements KeyListener {
         this.mainPanel = new JPanel(new BorderLayout());
     }
 
-    public void run() {
+    public void run() throws InterruptedException {
         this.frame.setSize(this.width, this.height);
         this.frame.setResizable(false);
-        //this.frame.setBackground(Color.MAGENTA);
         this.frame.getContentPane().setBackground(Color.BLUE);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.mainPanel.setSize(this.width,this.height);
@@ -37,9 +36,18 @@ public class SnakeGame extends JPanel implements KeyListener {
         this.mainPanel.add(this.snake);
         this.mainPanel.add(this.apple);
         this.mainPanel.add(this.background);
-        //this.mainPanel.setBackground(Color.GREEN);
         this.frame.setContentPane(mainPanel);
         this.frame.setVisible(true);
+
+        while (this.snake.getLength() < 100) {
+            paintRepaint();
+            this.snake.updatePosition();
+            if (this.snake.getXCoord() == this.apple.getXCoord() && this.snake.getYCoord() == this.apple.getYCoord()) {
+                this.apple.updatePosition();
+                this.snake.grow();
+            }
+            Thread.sleep(700);
+        }
     }
 
     public void paintRepaint() {
@@ -53,22 +61,22 @@ public class SnakeGame extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && !this.keyPressed) {
-            this.snake.moveRight();
+            this.snake.setDirection("right");
             this.keyPressed = true;
             paintRepaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT && !this.keyPressed) {
-            this.snake.moveLeft();
+            this.snake.setDirection("left");
             this.keyPressed = true;
             paintRepaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN && !this.keyPressed) {
-            this.snake.moveDown();
+            this.snake.setDirection("down");
             this.keyPressed = true;
             paintRepaint();
         }
         if (e.getKeyCode() == KeyEvent.VK_UP && !this.keyPressed) {
-            this.snake.moveUp();
+            this.snake.setDirection("up");
             this.keyPressed = true;
             paintRepaint();
         }
