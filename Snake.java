@@ -1,13 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Snake extends JPanel {
     private int x;
     private int y;
     private String direction;
-
-    Point[] snakePos;
+    private LinkedList<Point> snakePos;
     private int length;
 
     public Snake() {
@@ -15,8 +14,8 @@ public class Snake extends JPanel {
         this.y = 500;
         this.length = 1;
         this.direction = "down";
-        this.snakePos = new Point[length];
-        this.snakePos[0] = new Point(this.x,this.y);
+        this.snakePos = new LinkedList<>();
+        this.snakePos.add(new Point(this.x, this.y));
     }
 
     public void paintComponent(Graphics g) {
@@ -29,33 +28,18 @@ public class Snake extends JPanel {
     public void moveRight() {
         if (this.x < 900) {
             this.x += 100;
-            if (this.snakePos.length > 1) {
-                for (int i = 1; i < this.snakePos.length; i++) {
-                    this.snakePos[i] = new Point(this.snakePos[i].x + 100,this.snakePos[i].y);
-                }
-            }
         }
     }
 
     public void moveLeft() {
         if (this.x > 0) {
             this.x -= 100;
-            if (this.snakePos.length > 1) {
-                for (int i = 1; i < this.snakePos.length; i++) {
-                    this.snakePos[i] = new Point(this.snakePos[i].x - 100,this.snakePos[i].y);
-                }
-            }
         }
     }
 
     public void moveUp() {
         if (this.y > 0) {
             this.y -= 100;
-            if (this.snakePos.length > 1) {
-                for (int i = 1; i < this.snakePos.length; i++) {
-                    this.snakePos[i] = new Point(this.snakePos[i].x,this.snakePos[i].y - 100);
-                }
-            }
         }
     }
 
@@ -63,17 +47,15 @@ public class Snake extends JPanel {
 
         if (this.y < 900) {
             this.y += 100;
-            if (this.snakePos.length > 1) {
-                for (int i = 1; i < this.snakePos.length; i++) {
-                    this.snakePos[i] = new Point(this.snakePos[i].x,this.snakePos[i].y + 100);
-                }
-            }
-
         }
     }
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public String getDirection() {
+        return this.direction;
     }
 
     public void updatePosition() {
@@ -90,10 +72,6 @@ public class Snake extends JPanel {
         return this.length;
     }
 
-    public void grow() {
-        this.length += 1;
-    }
-
     public int getXCoord() {
         return this.x;
     }
@@ -103,18 +81,15 @@ public class Snake extends JPanel {
     }
 
     private void updatePositionHistory() {
-        if (this.length > this.snakePos.length) {
-            Point[] tempArray = new Point[this.snakePos.length + 1];
-            tempArray[0] = new Point(this.x, this.y);
-            System.arraycopy(this.snakePos, 0, tempArray, 1, this.snakePos.length);
-            this.snakePos = tempArray;
-        } else {
-            if (this.length >= 2) {
-                for (int i = 1; i<this.snakePos.length; i++) {
-                    snakePos[i] = snakePos[i - 1];
-                }
-            }
-            this.snakePos[0] = new Point(this.x, this.y);
-        }
+        this.snakePos.addFirst(new Point(this.x,this.y));
+        this.snakePos.removeLast();
+    }
+
+    public LinkedList<Point> getSnakePos() {
+        return this.snakePos;
+    }
+
+    public void snakeGrow() {
+        this.snakePos.addLast(new Point(this.x,this.y));
     }
 }

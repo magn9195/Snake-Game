@@ -8,9 +8,9 @@ public class Apple extends JPanel {
     private Random random;
 
     public Apple() {
-        this.x = 300;
-        this.y = 300;
         this.random = new Random();
+        this.x = this.random.nextInt(11 - 1) * 100;
+        this.y = this.random.nextInt(11 - 1) * 100;
     }
 
     public void paintComponent(Graphics g) {
