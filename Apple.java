@@ -3,36 +3,28 @@ import java.awt.*;
 import java.util.Random;
 
 public class Apple extends JPanel {
-    private int x;
-    private int y;
+    private Point appleCoord;
     private Random random;
 
     public Apple() {
         this.random = new Random();
-        this.x = this.random.nextInt(11 - 1) * 100;
-        this.y = this.random.nextInt(11 - 1) * 100;
+        this.appleCoord = new Point(this.random.nextInt(11 - 1) * 100, this.random.nextInt(11 - 1) * 100);
     }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(this.x, this.y, 100, 100);
+        g.fillRect(this.appleCoord.x, this.appleCoord.y, 100, 100);
     }
 
     public Point getCoords() {
-        return new Point(this.x,this.y);
+        return this.appleCoord;
     }
 
     public void updatePosition() {
-        this.x = this.random.nextInt(11 - 1) * 100;
-        this.y = this.random.nextInt(11 - 1) * 100;
+        this.appleCoord = new Point(this.random.nextInt(11 - 1) * 100, this.random.nextInt(11 - 1) * 100);
     }
 
-    public int getXCoord() {
-        return this.x;
+    public Point getAppleCoord() {
+        return this.appleCoord;
     }
-
-    public int getYCoord() {
-        return this.y;
-    }
-
 }

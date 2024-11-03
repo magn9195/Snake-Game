@@ -1,21 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Set;
 
 public class Snake extends JPanel {
-    private int x;
-    private int y;
+    private Point snakeCoord;
     private String direction;
     private LinkedList<Point> snakePos;
-    private int length;
 
     public Snake() {
-        this.x = 500;
-        this.y = 500;
-        this.length = 1;
+        this.snakeCoord = new Point(500, 500);
         this.direction = "down";
         this.snakePos = new LinkedList<>();
-        this.snakePos.add(new Point(this.x, this.y));
+        this.snakePos.add(this.snakeCoord);
     }
 
     public void paintComponent(Graphics g) {
@@ -26,27 +25,26 @@ public class Snake extends JPanel {
     }
 
     public void moveRight() {
-        if (this.x < 900) {
-            this.x += 100;
+        if (this.snakeCoord.x < 900) {
+            this.snakeCoord.x += 100;
         }
     }
 
     public void moveLeft() {
-        if (this.x > 0) {
-            this.x -= 100;
+        if (this.snakeCoord.x > 0) {
+            this.snakeCoord.x -= 100;
         }
     }
 
     public void moveUp() {
-        if (this.y > 0) {
-            this.y -= 100;
+        if (this.snakeCoord.y > 0) {
+            this.snakeCoord.y -= 100;
         }
     }
 
     public void moveDown() {
-
-        if (this.y < 900) {
-            this.y += 100;
+        if (this.snakeCoord.y < 900) {
+            this.snakeCoord.y += 100;
         }
     }
 
@@ -69,19 +67,15 @@ public class Snake extends JPanel {
     }
 
     public int getLength() {
-        return this.length;
+        return this.snakePos.size();
     }
 
-    public int getXCoord() {
-        return this.x;
-    }
-
-    public int getYCoord() {
-        return this.y;
+    public Point getSnakeCoord() {
+        return this.snakeCoord;
     }
 
     private void updatePositionHistory() {
-        this.snakePos.addFirst(new Point(this.x,this.y));
+        this.snakePos.addFirst(new Point(this.snakeCoord));
         this.snakePos.removeLast();
     }
 
@@ -89,7 +83,15 @@ public class Snake extends JPanel {
         return this.snakePos;
     }
 
+    public boolean detectCollision() {
+        if (this.snakePos.size() > 1) {
+            Set<Point> tempSet = new HashSet<>(this.snakePos);
+            return tempSet.size() < this.snakePos.size();
+        }
+        return false;
+    }
+
     public void snakeGrow() {
-        this.snakePos.addLast(new Point(this.x,this.y));
+        this.snakePos.addLast(new Point(this.snakeCoord));
     }
 }

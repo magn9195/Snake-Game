@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class SnakeGame extends JPanel implements KeyListener {
+    private boolean gameRunning;
     private final int height;
     private final int width;
     private boolean keyPressed;
@@ -24,27 +25,25 @@ public class SnakeGame extends JPanel implements KeyListener {
         this.apple = new Apple();
         this.background = new Background();
         this.mainPanel = new JPanel(new BorderLayout());
+        this.gameRunning = true;
     }
 
     public void run() throws InterruptedException {
-        this.frame.setSize(this.width, this.height);
-        this.frame.setResizable(false);
-        this.frame.getContentPane().setBackground(Color.BLUE);
-        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.mainPanel.setSize(this.width,this.height);
-        this.mainPanel.setLayout(new OverlayLayout(this.mainPanel));
-        this.mainPanel.add(this.snake);
-        this.mainPanel.add(this.apple);
-        this.mainPanel.add(this.background);
-        this.frame.setContentPane(mainPanel);
-        this.frame.setVisible(true);
+        setupScreen();
+        runGame();
+    }
 
-        while (this.snake.getLength() < 100) {
+    public void paintRepaint() {
+        this.mainPanel.repaint();
+    }
+
+    public void runGame() throws InterruptedException {
+        setUpSnake();
+        while (gameRunning && snake.getLength() < 100) {
             paintRepaint();
-            if (this.snake.getXCoord() == this.apple.getXCoord() && this.snake.getYCoord() == this.apple.getYCoord()) {
+            if (this.snake.getSnakeCoord().equals(this.apple.getAppleCoord())) {
                 this.snake.snakeGrow();
                 this.apple.updatePosition();
-
                 int i = 0;
                 while (i < this.snake.getSnakePos().size()) {
                     if (this.snake.getSnakePos().get(i) == this.apple.getCoords()) {
@@ -55,12 +54,28 @@ public class SnakeGame extends JPanel implements KeyListener {
                 }
             }
             this.snake.updatePosition();
+            if (this.snake.detectCollision()) {
+                break;
+            }
             Thread.sleep(500);
         }
     }
 
-    public void paintRepaint() {
-        this.mainPanel.repaint();
+    public void setUpSnake() {
+        this.mainPanel.add(this.snake);
+        this.mainPanel.add(this.apple);
+        this.mainPanel.add(this.background);
+    }
+
+    public void setupScreen() {
+        this.frame.setSize(this.width, this.height);
+        this.frame.setResizable(false);
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.mainPanel.setSize(this.width,this.height);
+        this.mainPanel.setLayout(new OverlayLayout(this.mainPanel));
+        this.frame.setContentPane(mainPanel);
+        this.frame.setVisible(true);
+
     }
 
     @Override
